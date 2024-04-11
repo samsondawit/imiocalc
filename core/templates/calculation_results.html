@@ -1,0 +1,72 @@
+{% extends 'base.html' %} <!--In order to inherit template(base.html) file, you need to write this command at the 1st line of your HTML-code-->
+{% block content %} <!-- Inside "block content there are unique content for this page" -->
+<div class="container mt-4">
+
+<!-- Stein Results Table -->
+<h3>Stein Results</h3>
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Job</th>
+            <th>Gold</th>
+            <th>Silver</th>
+            <th>Weight</th>
+            <th>Copper</th>
+            <th>Iron</th>
+            <th>Sulfur</th>
+            <th>Created date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stein in stein_results %}
+        <tr>
+            <td>{{ stein.job.id }}</td>
+            <td>{{ stein.Gold }}</td>
+            <td>{{ stein.Silver }}</td>
+            <td>{{ stein.Weight }}</td>
+            <td>{{ stein.Copper }}</td>
+            <td>{{ stein.Iron }}</td>
+            <td>{{ stein.Sulfur }}</td>
+            <td>{{ stein.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<br>
+
+<!-- Slag Results Table -->
+<h3>Slag Results</h3>
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Job</th>
+            <th>SiO2</th>
+            <th>CaO</th>
+            <th>Al2O3</th>
+            <th>FeO</th>
+            <th>Weight</th>
+            <th>Created date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for slag in slag_results %}
+        <tr>
+            <td>{{slag.job.id}}</td>
+            <td>{{ slag.SiO2 }}</td>
+            <td>{{ slag.CaO }}</td>
+            <td>{{ slag.Al2O3 }}</td>
+            <td>{{ slag.FeO }}</td>
+            <td>{{ slag.Weight }}</td>
+            <td>{{slag.created_at}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock content %}
+

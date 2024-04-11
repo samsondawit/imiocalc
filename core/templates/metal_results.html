@@ -1,0 +1,73 @@
+{% extends 'base.html' %} <!--In order to inherit template(base.html) file, you need to write this command at the 1st line of your HTML-code-->
+{% block content %} <!-- Inside "block content there are unique content for this page" -->
+<div class="container mt-4">
+    <div class="table-responsive">
+        <table class="table table-hover table-striped table-bordered">
+        <thead>
+            <tr>       
+                <th>Job</th>
+                <th>in_raf_percent</th>
+                <th>in_electrolyte_percent</th>
+                <th>in_katods_percent</th>
+                <th>in_organics_percent</th>
+                <th>ore_remain_percent</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {% for total in totals %}
+            <tr>
+                <td>{{ total.job.id }}</td>
+                <td>{{ total.in_raf_percent }}</td>
+                <td>{{ total.in_electrolyte_percent }}</td>
+                <td>{{ total.in_katods_percent }}</td>
+                <td>{{ total.in_organics_percent }}</td>
+                <td>{{ total.ore_remain_percent }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+<h3>Metal Results</h3>
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Job</th>
+            <th>Extraction efficiency</th>
+            <th>C cu organic depleted</th>
+            <th>C cu organic rich</th>
+            <th>Re extraction efficiency organic</th>
+            <th>Re extraction efficiency electrolyte</th>
+            <th>Cu gain</th>
+            <th>Total accumulated cu</th>
+            <th>Total cu recovery</th>
+            <th>Overall extraction efficiency</th>
+
+        </tr>
+    </thead>
+    <tbody> 
+        {% for result in results %}
+        <tr>
+            <td>{{ result.day }}</td>
+            <td>{{ result.job.id }}</td>
+            <td>{{ result.extraction_efficiency }}</td>
+            <td>{{ result.c_cu_organic_depleted }}</td>
+            <td>{{ result.c_cu_organic_rich }}</td>
+            <td>{{ result.re_extraction_efficiency_organic }}</td>
+            <td>{{ result.re_extraction_efficiency_electrolyte }}</td>
+            <td>{{ result.cu_gain }}</td>
+            <td>{{ result.total_accumulated_cu }}</td>
+            <td>{{ result.total_cu_recovery }}</td>
+            <td>{{ result.overall_extraction_efficiency }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+
+{% endblock content %}
+

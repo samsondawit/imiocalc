@@ -1,0 +1,52 @@
+{% extends 'base.html' %} <!--In order to inherit template(base.html) file, you need to write this command at the 1st line of your HTML-code-->
+{% block content %} <!-- Inside "block content there are unique content for this page" -->
+<div class="container">
+<h2>Select Materials for Calculation</h2>
+
+<form method="POST" action="{% url 'materials_calculate' %}">
+    {% csrf_token %}
+    <div class="table-responsive">
+
+        <table class="table table-hover table-striped table-bordered">            
+            <thead>
+            <tr>
+                <th>Select</th> <!-- Checkbox column -->
+                <th>Name</th>
+                <th>Weight</th>
+                <th>Au</th>
+                <th>Ag</th>
+                <th>SiO2</th>
+                <th>CaO</th>
+                <th>S</th>
+                <th>Fe</th>
+                <th>Cu</th>
+                <th>Al2O3</th>
+                <th>As0</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in materials %}
+            <tr>
+                <td><input type="checkbox" name="selected_materials" value="{{ material.id }}"></td>
+                <td>{{ material.name0 }}</td>
+                <td>{{ material.Weight }}</td>
+                <td>{{ material.Au }}</td>
+                <td>{{ material.Ag }}</td>
+                <td>{{ material.SiO2 }}</td>
+                <td>{{ material.CaO }}</td>
+                <td>{{ material.S }}</td>
+                <td>{{ material.Fe }}</td>
+                <td>{{ material.Cu }}</td>
+                <td>{{ material.Al2O3 }}</td>
+                <td>{{ material.As0 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center mt-4">
+        <button type="submit" class="btn btn-primary">Calculate</button>
+    </div>
+</form>
+
+{% endblock content %}
+

@@ -1,0 +1,40 @@
+<!-- Because we are using Django's templates functionalty,
+I've created this(base.html) main template
+In short, all stuff that you will write here, will appear in any HTML file
+As an example, I've made an menu to navigating through the website-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>IMIO</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="#">IMIO</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item"><a class="nav-link" href="{% url 'materials_crud' %}">Explore data</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'metals_crud' %}">Explore metals</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'materials_calculate' %}">Calculations</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'metal_calculations' %}">Metal calculations</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'show_all_results' %}">Results</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'metal_results' %}">Metal Results</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Admin</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+{% block content %}
+
+<!-- And unique content of every HTML, should be inside this "block content"-->
+
+{% endblock content %}

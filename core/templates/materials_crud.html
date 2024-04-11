@@ -1,0 +1,150 @@
+{% extends 'base.html' %} <!--In order to inherit template(base.html) file, you need to write this command at the 1st line of your HTML-code-->
+{% block content %} <!-- Inside "block content there are unique content for this page" -->
+
+<div class="container mt-4">
+
+<h2>Materials</h2>
+
+<!-- Be careful with id and data-field of every block, because they are need for correct work of program, 
+    you can change styles and add classes, just don't touch ids and data-fields-->
+
+    <form method="POST" id="materials-form" class="mt-3">
+        {% csrf_token %}
+        <div style="overflow-x:auto;">
+
+        <table class="table table-hover table-striped table-bordered" id="materials-table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Weight</th>
+                <th>Au</th>
+                <th>Ag</th>
+                <th>SiO2</th>
+                <th>CaO</th>
+                <th>S</th>
+                <th>Fe</th>
+                <th>Cu</th>
+                <th>Al2O3</th>
+                <th>As0</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for material in materials %}
+            <tr data-material-id="{{ material.id }}">
+                <td class="editable" data-field="name0">{{ material.name0 }}</td>
+                <td class="editable" data-field="Weight">{{ material.Weight }}</td>
+                <td class="editable" data-field="Au">{{ material.Au }}</td>
+                <td class="editable" data-field="Ag">{{ material.Ag }}</td>
+                <td class="editable" data-field="SiO2">{{ material.SiO2 }}</td>
+                <td class="editable" data-field="CaO">{{ material.CaO }}</td>
+                <td class="editable" data-field="S">{{ material.S }}</td>
+                <td class="editable" data-field="Fe">{{ material.Fe }}</td>
+                <td class="editable" data-field="Cu">{{ material.Cu }}</td>
+                <td class="editable" data-field="Al2O3">{{ material.Al2O3 }}</td>
+                <td class="editable" data-field="As0">{{ material.As0 }}</td>
+                <td>  <button type="button" class="btn btn-danger btn-sm delete-btn" data-material-id="{{ material.id }}">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+            <!-- Form row for adding new materials -->
+            <tr>
+                <td>{{ form.name0 }}</td>
+                <td>{{ form.Weight }}</td>
+                <td>{{ form.Au }}</td>
+                <td>{{ form.Ag }}</td>
+                <td>{{ form.SiO2 }}</td>
+                <td>{{ form.CaO }}</td>
+                <td>{{ form.S }}</td>
+                <td>{{ form.Fe }}</td>
+                <td>{{ form.Cu }}</td>
+                <td>{{ form.Al2O3 }}</td>
+                <td>{{ form.As0 }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="text-center mt-3">
+    <button type="submit" class="btn btn-primary">Add Material</button>
+</div>
+</form>
+</div>
+<!--Just don't touch scripts-->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var table = document.getElementById('materials-table');
+    table.addEventListener('dblclick', function(e) {
+        if (e.target.classList.contains('editable')) {
+            var currentText = e.target.innerText;
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentText;
+            input.setAttribute('form', 'fake-form');
+            input.onblur = function() {
+                var newValue = this.value;
+                e.target.innerText = newValue;
+                updateMaterial(e.target.parentNode.getAttribute('data-material-id'), e.target.getAttribute('data-field'), newValue);
+            };
+
+            input.addEventListener('keydown', function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    this.blur();
+                }
+            });
+
+            e.target.innerText = ''; 
+            e.target.appendChild(input);
+            input.focus();
+        }
+    });
+    
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const materialId = this.getAttribute('data-material-id');
+            deleteMaterial(materialId);
+        });
+    });
+});
+
+function deleteMaterial(materialId) {
+    fetch(`/delete-material/${materialId}/`, { 
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Material deleted successfully');
+            document.querySelector(`tr[data-material-id="${materialId}"]`).remove();
+        } else {
+            console.error('Deletion failed');
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+function updateMaterial(materialId, field, value) {
+    fetch('/update-material/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        body: JSON.stringify({id: materialId, field: field, value: value}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+</script>
+
+{% endblock content %}
